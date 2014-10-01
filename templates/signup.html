@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+	</script>
+	<script src="jquery.serializeJSON.min.js"></script>
+
+{% endblock %}}
+
+
+{% block content %}
+
+<form action="/signup/submitdata/" method="post">
+	<label>Email</label> <input type="text" name="email" placeholder="Email"></input> </br>
+	<label>Password</label> <input type="password" name="password" placeholder="Password"></input> </br>
+	<input type="submit" value="Signup"></input>
+</form>
+
+
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+
+{% endblock %}

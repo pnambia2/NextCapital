@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<style>
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+	<h2 style="text-align:center;">To-Do List</h2>
+
+<table align="center" style="width:50%">
+	<tr>
+		<th>Description</th>
+		<th style="width:6em">Completed</th>
+		<th style="width:10em">Mark Completed</th>
+		<th style="width:5em">Move Up/Down</th>
+	</tr>
+	
+
+
+
+{% for t in todo_list %}
+<tr>
+<td> {{t['description']}}	</td>
+<td style="text-align:center;"> {{t['is_complete']}}   </td>
+<td style="text-align:center;"> <a href="/todos/{{ t['id'] }}"> Completed </a> </td>
+<td style="text-align:center;"> <a style = "padding-left:0.25em;" href="/todos/up/{{ t['id'] }}"> &#9650; </a></br>
+								<a href="/todos/down/{{ t['id'] }}">&#9660; </a> </td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</br>
+</br>
+
+<form style="padding-left:21em;" action="/todos/newitem/" method="post">
+	<label>Add new item to list</label> <input type="text" name="desc" placeholder="Description"></input> </br>
+	<input type="submit" value="Add Item"></input>
+</form>
+
+
+
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+
+{% endblock %}}
+
+
+{% block content %}
+
+<form action="/signin/submitdata/" method="post">
+	<label>Email</label> <input type="text" name="email" placeholder="Email"></input> </br>
+	<label>Password</label> <input type="password" name="password" placeholder="Password"></input> </br>
+	<input type="submit" value="Sign In"></input>
+</form>
+
+
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+
+{% endblock %}
