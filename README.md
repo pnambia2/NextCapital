@@ -10,21 +10,22 @@ Solution
 ========
 
 At the moment, the web app allows users to do the following things:
--Sign up
--Log in
--See a list of their todos
--Create new todos
--Mark todos as complete
--Reorder their todos (Note: This is just a client side reordering. Upon signing out and signing back in, the ordering is not preserved.)
+
+* Sign up
+* Log in
+* See a list of their todos
+* Create new todos
+* Mark todos as complete
+* Reorder their todos (Note: This is just a client side reordering. Upon signing out and signing back in, the ordering is not preserved.)
 
 Technology and Tools
 ====================
 
 For the web app, I have used the following tools extensively:
-1. Flask, a Python web micro framework
-2. NextCapital API as required
-3. Python requests library to make HTTP requests (GET, PUT, POST, DELETE)
-4. Bootstrap to make my front end a little more presentable
+* Flask, a Python web micro framework
+* NextCapital API as required
+* Python requests library to make HTTP requests (GET, PUT, POST, DELETE)
+* Bootstrap to make my front end a little more presentable
 
 
 Notes
