@@ -32,7 +32,7 @@ def signup():
 def signup_submit():
 	#On clicking submit, redirects to this page, does the actual API call
 	
-	print "TEST"
+	
 	email = request.form['email']
 	password = request.form['password']
 	
@@ -41,9 +41,7 @@ def signup_submit():
 	headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 	
 	r = requests.post(signup_url, data=json.dumps(data), headers=headers)	# Using the requests library to sign the user up
-	print r.json()
-	print email, password
-	print r.json()['email']
+	
 	if r.json()['email'] == [u'has already been taken']:
 		return redirect('/user_taken/')								# Redirect to page that tells the user that the email is taken
 
@@ -79,7 +77,6 @@ def signin_submit():
 	
 	r = requests.post(signin_url, data=json.dumps(data), headers=headers)		# Using requests lib to sign in
 
-	print r.json()
 	
 	if 'error' in r.json():
 		if r.json()['error'] == "Couldn't find a user with that email.":		# Email doesnt exist
@@ -107,23 +104,15 @@ def todos():
 	#API call to get todos for my user
 	
 	global todo_list
-	print "HERE"
-	print api_token
-	print user_id
 	
 	url = "http://recruiting-api.nextcapital.com/users/{}/todos.json?api_token={}".format(str(user_id), str(api_token))
 	
-	print url
 
 	headers = {'Content-type': 'application/json'}
 
 	r = requests.get(url, headers = headers)
 
 	todo_list = r.json()
-	
-	print r.text
-	
-	print todo_list
 
 	return redirect('/todos/display/')
 
@@ -136,9 +125,6 @@ def display_todos():
 @app.route('/todos/newitem/', methods = ['POST', 'GET'])
 def new_item():
 	#API call to add new item, redirects to the todos/display
-	
-	print "now here"
-	print user_id
 
 	description = request.form['desc']
 	url = "http://recruiting-api.nextcapital.com/users/{}/todos".format(str(user_id))
@@ -149,8 +135,7 @@ def new_item():
 	headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 	r = requests.post(url, data=json.dumps(data), headers=headers)
-	print r.json()
-	
+		
 	return redirect('/todos/')
 
 @app.route('/todos/<int:todo_id>', methods = ['POST', 'GET'])
@@ -172,8 +157,6 @@ def mark_completed(todo_id):
 	
 	r2 = requests.put(url2, data = json.dumps(data), headers = headers)
 	
-	print "PRINTING TODO LIST"
-	print todo_list
 
 	return redirect('/todos/')
 
@@ -189,8 +172,7 @@ def move_up(todo_id):
 	if index != 0:	# dont move the first element up
 		todo_list[index], todo_list[index-1] = todo_list[index-1], todo_list[index]		#swap
 
-	print "AFTER REORDER"
-	print todo_list
+
 
 	return redirect('/todos/display/')
 
@@ -205,10 +187,7 @@ def move_down(todo_id):
 	
 	if index != (len(todo_list)-1):		#dont move the last element down
 		todo_list[index+1], todo_list[index] = todo_list[index], todo_list[index+1]		#swap
-	
-	print "AFTER REORDER"
-	print todo_list
-	
+		
 	return redirect('/todos/display/')
 
 @app.route('/signout/')
@@ -228,7 +207,7 @@ def sign_out():
 
 	api_token = ""
 	user_id = -1
-	todos = []
+	todos = []				#reset the value on sign out
 	email = ""
 	todo_list = []
 
