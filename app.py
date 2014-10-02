@@ -37,9 +37,15 @@ def signup_submit():
 	r = requests.post(signup_url, data=json.dumps(data), headers=headers)
 	print r.json()
 	print email, password
+	print r.json()['email']
+	if r.json()['email'] == [u'has already been taken']:
+		return redirect('/user_taken/')
 
 	return redirect('/')
 
+@app.route('/user_taken/')
+def user_taken():
+	return render_template('user_taken.html')
 
 @app.route('/signin/')
 def signin():
@@ -66,10 +72,10 @@ def signin_submit():
 	
 	if 'error' in r.json():
 		if r.json()['error'] == "Couldn't find a user with that email.":
-			return redirect('/user_noexist/')
+			return redirect('/user_invalid/')
 	
 		elif r.json()['error'] == "Password is not valid.":
-			return redirect('/user_invalidpw/')
+			return redirect('/user_invalid/')
 	
 	else:
 		api_token = r.json()['api_token']
@@ -78,6 +84,10 @@ def signin_submit():
 		email = r.json()['email']
 		
 		return redirect('/todos/')
+
+@app.route('/user_invalid/')
+def user_invalid():
+	return render_template('user_invalid.html')
 
 @app.route('/todos/', methods = ['GET'])
 def todos():
@@ -178,6 +188,28 @@ def move_down(todo_id):
 	print todo_list
 	
 	return redirect('/todos/display/')
+
+@app.route('/signout/')
+def sign_out():
+	global api_token
+	global user_id
+	global todos
+	global email
+	global todo_list
+	
+	url = "http://recruiting-api.nextcapital.com/users/sign_out"
+	headers = {'Content-type': 'application/json'}
+	data = {"api_token": api_token, "user_id": user_id}
+
+	r = requests.delete(url, data = json.dumps(data), headers = headers)
+
+	api_token = ""
+	user_id = -1
+	todos = []
+	email = ""
+	todo_list = []
+
+	return redirect('/')
 
 
 

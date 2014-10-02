@@ -12,6 +12,9 @@
 {% endblock %}
 
 {% block content %}
+	<div style = "text-align:right; float:right">
+		<a href="/signout/"> Sign Out </a>
+	</div>
 
 	<h2 style="text-align:center;">To-Do List</h2>
 
@@ -43,7 +46,7 @@
 </br>
 
 <form style="padding-left:21em;" action="/todos/newitem/" method="post">
-	<label>Add new item to list</label> <input type="text" name="desc" placeholder="Description"></input> </br>
+	<label>Add a new item to your list</label> <input type="text" name="desc" placeholder="Description"></input> </br>
 	<input type="submit" value="Add Item"></input>
 </form>
 
