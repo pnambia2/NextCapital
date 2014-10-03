@@ -31,4 +31,4 @@ For the web app, I have used the following tools extensively:
 Notes
 ---------
 
-I understand that this web app is far from perfect. In particular, upon any kind of refresh (including hitting 'Completed'), the client side ordering is no longer preserved. If I had more time, I would change a number of things. I enjoyed working with the API, and I think that this is a neat interview problem.
+I understand that this web app is far from perfect. If I had more time, I would change a number of things. I enjoyed working with the API, and I think that this is a neat interview problem.
