@@ -126,6 +126,7 @@ def display_todos():
 @app.route('/todos/newitem/', methods = ['POST', 'GET'])
 def new_item():
 	#API call to add new item, redirects to the todos/display
+	global todo_list
 
 	description = request.form['desc']
 	url = "http://recruiting-api.nextcapital.com/users/{}/todos".format(str(user_id))
@@ -136,12 +137,19 @@ def new_item():
 	headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 	r = requests.post(url, data=json.dumps(data), headers=headers)
-		
-	return redirect('/todos/')
+	
+	new_id = r.json()['id']
+	new_dict = {'description': description, 'id': new_id, 'is_complete': "False"}	#insert into start of list to maintain order
+	todo_list.reverse()
+	todo_list.append(new_dict)
+	todo_list.reverse()
+	
+	return redirect('/todos/display/')
 
 @app.route('/todos/<int:todo_id>', methods = ['POST', 'GET'])
 def mark_completed(todo_id):
 	#API call to update an item's complete status to TRUE
+	global todo_list
 	
 	url1 = "http://recruiting-api.nextcapital.com/users/{}/todos/{}?api_token={}".format(str(user_id), str(todo_id), str(api_token))
 
@@ -158,16 +166,23 @@ def mark_completed(todo_id):
 	
 	r2 = requests.put(url2, data = json.dumps(data), headers = headers)
 	
+	for item in todo_list:
+		if item['id']==todo_id:
+			item['is_complete'] = "True"
 
-	return redirect('/todos/')
+
+		
+	
+	return redirect('/todos/display')
 
 @app.route('/todos/up/<int:todo_id>')
 def move_up(todo_id):
 	#Moves the item higher in the list
-	global todo_list
+	index = 0
 
-	for index in range(0, len(todo_list)):
-		if todo_list[index]['id'] == todo_id:
+	for i in range(0, len(todo_list)):
+		if todo_list[i]['id'] == todo_id:
+			index = i
 			break;
 	
 	if index != 0:	# dont move the first element up
@@ -181,11 +196,12 @@ def move_up(todo_id):
 def move_down(todo_id):
 	#Moves the item lower in the list
 	global todo_list
-	
-	for index in range(0, len(todo_list)):
-		if todo_list[index]['id'] == todo_id:
+	index = 0
+	for i in range(0, len(todo_list)):
+		if todo_list[i]['id'] == todo_id:
+			index = i
 			break;
-	
+
 	if index != (len(todo_list)-1):		#dont move the last element down
 		todo_list[index+1], todo_list[index] = todo_list[index], todo_list[index+1]		#swap
 		
@@ -220,4 +236,4 @@ def sign_out():
 
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5000))
-	app.run(host='0.0.0.0', port=port)			#for heroku
+	app.run(host='0.0.0.0', port=port, debug=True)			#for heroku
