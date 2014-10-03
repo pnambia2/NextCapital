@@ -113,6 +113,7 @@ def todos():
 	r = requests.get(url, headers = headers)
 
 	todo_list = r.json()
+	todo_list = todo_list[::-1]		#reverse the list because we want the most recent items up top
 
 	return redirect('/todos/display/')
 
